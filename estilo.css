@@ -1,3 +1,6 @@
+body{
+    background-image: url(./img/imagendefondo.jpg);
+}
 .d-block{
     width: 500px;
     height: 500px;
