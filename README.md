@@ -1,7 +1,6 @@
 # Entregable 1 en Programación web (Taller Mecanico Rayo Makween)
 
-_En este repositorio daremos a conocer la problematica en el proyecto Mecanico Rayo Makwwen con el próposito de dar una solución
-informática a su problematica_
+_En este repositorio se encontrara una solucion con parametros informaticos hacia una problematica correspondiente a el taller mecanico rayo makween_
 
 ## Autores  🛠️
 
