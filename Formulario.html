@@ -21,6 +21,37 @@
     })
 })
 </script>
+<script>
+  $(document).ready(function(){
+      $("#msg").hide();
+      $("#msg2").hide();
+      var urlBase = "https://www.metaweather.com/api/location/search/?lattlong=";
+          if (navigator.geolocation) {
+              navigator.geolocation.getCurrentPosition(showPosition);
+          } else {
+              $("#msg2").append("Geolocation is not supported by this browser.");
+              $("#msg2").show();
+          }
+      }) 
+      function showPosition(position) {
+          $("#mensajeLatLon").remove();
+          $("#msg").append(`<div id="mensajeLatLon">Latitude: ${position.coords.latitude} <br> Longitude: ${position.coords.longitude}</div>`);
+          $("#msg").show();
+          var lat = position.coords.latitude;
+          var lon = position.coords.longitude;
+          var urlFormatted = urlBase+lat+","+lon;
+          $.get(urlFormatted,function(data){
+          }).then(function(data){
+              var id = data[0].woeid;
+              var newUrl = "https://www.metaweather.com/api/location/"+id;
+              $.get(newUrl,function(data){
+                  var tempPromedio = data.consolidated_weather[0].the_temp;
+                  var Icon = data.consolidated_weather[0].weather_state_abbr;
+                  $("#mensajeLatLon").append( `<br><h4> La temperatura</h4> en ${data.title} es de ${tempPromedio} °C y esta <img src ="https://www.metaweather.com/static/img/weather/${Icon}.svg" style="width:32px">`);
+              })
+          })
+      }
+</script>
 </head>
 <header>
   <div class="container">
@@ -46,6 +77,7 @@
                     <li><a class="dropdown-item" href="./Area de Suspencion y Direccion.html">Suspension y direccion</li>
                   </ul>
                 </li>
+                <a class="nav-link active" aria-current="page" href="./Formulario.html"><button type="button" class="btn btn-danger">Marcas Incluidas</button></a>
                 <li class="nav-item">
                   <a class="nav-link disabled" href="#" tabindex="-1" aria-disabled="true"></a>
                 </li>
@@ -57,6 +89,14 @@
     </div>
 </header>
 <body>
+  <div class="container">
+    <div class="row">
+      <div class="alert alert-primary mt-3" role="alert" id="msg">
+      </div>
+      <div class="alert alert-danger" role="alert" id="msg2">
+      </div>
+    </div>
+  </div>
     <div class="container">
         <div class="row">
             <h1>Ver modelos con los que trabajamos</h1>
@@ -72,7 +112,7 @@
                 <thead>
                     <tr>
                         <th scope="col">#</th>
-                        <th scope="col">Marca de veh&iacute;culos</th>
+                        <th scope="col">Marca de veh&iacute;culo</th>
                     </tr>
                 </thead>
                 <tbody id="datos">
